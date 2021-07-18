@@ -1,18 +1,32 @@
 import _ from "lodash";
-import faker from 'faker';
 import mock from "src/utils/mock";
-import { GENDER_OPTIONS } from "src/constants/employee";
 
-const { name, random, phone } = faker;
-
-let employees: Employee.Infor[] = ["1", "2", "3"].map((id) => ({
-    id,
-    firstname: name.firstName(),
-    emailAddress: `${name.firstName()}@gmail.com`,
-    gender: random.arrayElement(GENDER_OPTIONS),
-    lastname: name.lastName(),
-    phoneNumber: phone.phoneNumber(),
-}))
+let employees: Employee.Infor[] = [
+  {
+    id: "1",
+    firstname: "Arinava",
+    lastname: "Grigoreva",
+    emailAddress: "arinava@gmail.com",
+    phoneNumber: "+65 61231231",
+    gender: "Male"
+  },
+  {
+    id: "2",
+    firstname: "Yustina",
+    lastname: "Vasilieva",
+    emailAddress: "yustina@gmail.com",
+    phoneNumber: "+65 61321321",
+    gender: "Female"
+  },
+  {
+    id: "3",
+    firstname: "Agrafina",
+    lastname: "Zakharov",
+    emailAddress: "agrafina@gmail.com",
+    phoneNumber: "+65 64567567",
+    gender: "Other"
+  }
+]
 
 mock.onGet("/employees").reply(() => {
   return [200, { employees }];
@@ -22,7 +36,7 @@ mock.onPost("/employees/add").reply((request) => {
   try {
     const { firstname, lastname, emailAddress, gender, phoneNumber } = JSON.parse(request.data);
     const employee = {
-      id: random.uuid(),
+      id: `${employees.length + 1}`,
       firstname,
       lastname,
       emailAddress,
